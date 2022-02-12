@@ -28,6 +28,7 @@ void main(void) {
     while (1) {
         message = getCharSerial4(); //Accept characters from the pc
         LCD_sendbyte(message,1); // Send data to be displayed on the LCD screen (one letter is sent at one time)
+        sendCharSerial4(message); // Remember to adjust the echo port
         
         
     }
