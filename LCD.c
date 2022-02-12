@@ -142,6 +142,7 @@ void ADC2String(char *buf, unsigned int ADC_val){
     int_part = 33*ADC_val/2550; // Integer part 
     fract_part = 33*ADC_val*10/255 - int_part*100; // Fraction part
     sprintf(buf,"V = %d.%02dV",int_part,fract_part); // Store the string into buf
+    //sprintf(buf,"V = %03d",ADC_val); // Store the string into buf
     
 }
 

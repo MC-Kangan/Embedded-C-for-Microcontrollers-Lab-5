@@ -35,8 +35,8 @@ void sendCharSerial4(char charToSend) {
 //function to send a string over the serial interface
 void sendStringSerial4(char *string){
 	//Hint: look at how you did this for the LCD lab 
-   // while(*string != 0){  //  strings in C must end with a NULL byte 
-		//sendCharSerial4(*string++); 	//Send out the current byte pointed to and increment the pointer
+    while(*string != 0){  //  strings in C must end with a NULL byte 
+		sendCharSerial4(*string++);} 	//Send out the current byte pointed to and increment the pointer
 }
 
 

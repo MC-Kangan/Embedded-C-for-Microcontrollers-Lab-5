@@ -9,7 +9,7 @@
 #include <stdio.h>
 #include "LCD.h"
 #include "serial.h"
-//#include "ADC.h"
+#include "ADC.h"
 //#include "interrupts.h"
 //#include "timers.h"
 
@@ -18,18 +18,23 @@
 
 void main(void) {
     LCD_Init();  
-    //ADC_init();
+    ADC_init();
     //Interrupts_init();
     //Timer0_init();
     initUSART4();
    
-    char message;
-    
+    unsigned int volt = 0;
+    char message[0]; // Initialise a string, which essentially is an array
+   
     while (1) {
-        message = getCharSerial4(); //Accept characters from the pc
-        LCD_sendbyte(message,1); // Send data to be displayed on the LCD screen (one letter is sent at one time)
+        //message = getCharSerial4(); //Accept characters from the pc
+        LCD_setline(1); // Set Line 1
+        volt = ADC_getval(); // Get ADC_value
+        ADC2String(message,volt); // Create the string to be displayed 
+        LCD_sendstring(message); // Send the string to LCD screen
         sendCharSerial4(message); // Remember to adjust the echo port
         
+        __delay_ms(1000);
         
     }
 }
