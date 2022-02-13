@@ -41,6 +41,8 @@ void main(void) {
         if (isDataInRxBuf()){
             info = getCharFromRxBuf();
             LCD_sendbyte(info,1);
+            putCharToTxBuf(info);
+            sendTxBuf();
         }
     }
 }
