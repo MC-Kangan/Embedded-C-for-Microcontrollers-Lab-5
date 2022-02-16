@@ -21,13 +21,13 @@ void Interrupts_init(void)
 ************************************/
 void __interrupt(high_priority) HighISR()
 {   if(PIR4bits.RC4IF){    //check the interrupt source some code you want to execute here; 
-                           // After reading RC4IF, the flag will be cleared
+                           // After reading RC4IF, the flag will be cleared to 0
         putCharToRxBuf(RC4REG); // add the character to RX buffer
 	}    
-    if (PIR4bits.TX4IF && (PIE4bits.TX4IE == 1)) { // If transmit buffer is empty and transmit interrupt is enabled
-        TX4REG = getCharFromTxBuf(); // Get characters from transmit buffer
-        PIR4bits.TX4IF = 0; // Setting the transmit buffer to be full
-        if (!isDataInTxBuf()) {PIE4bits.TX4IE = 0;} // If
+    if (PIR4bits.TX4IF && (PIE4bits.TX4IE == 1)) { // If transmit buffer TX4REG is empty and transmit interrupt is enabled
+        TX4REG = getCharFromTxBuf(); // Get characters from transmit buffer. After writing TX4REG, flag is cleared to 0
+        //PIR4bits.TX4IF = 0; // Setting the transmit buffer to be full
+        if (!isDataInTxBuf()) {PIE4bits.TX4IE = 0;} // If TX buffer is empty (it could happen when the buffer exceed it its defined size), disabled the transmit interrupt
     }
 }
 
