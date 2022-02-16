@@ -38,11 +38,11 @@ void main(void) {
 //        sendStringSerial4("      "); // This is to add the spacing to each string
 //        
 //        __delay_ms(1000);
-        if (isDataInRxBuf()){
-            info = getCharFromRxBuf();
-            LCD_sendbyte(info,1);
-            putCharToTxBuf(info);
-            sendTxBuf();
+        if (isDataInRxBuf()){ // if data is in RX buffer
+            info = getCharFromRxBuf(); // get the information to from the RX buffer
+            LCD_sendbyte(info,1); // send the information to be displayed on the LCD
+            putCharToTxBuf(info); // store the information to the TX buffer
+            sendTxBuf(); // turn on the interrupt
         }
     }
 }

@@ -45,34 +45,34 @@ void sendStringSerial4(char *string){
 // circular buffer functions for RX
 // retrieve a byte from the buffer
 char getCharFromRxBuf(void){
-    if (RxBufReadCnt>=RX_BUF_SIZE) {RxBufReadCnt=0;} 
-    return EUSART4RXbuf[RxBufReadCnt++];
+    if (RxBufReadCnt>=RX_BUF_SIZE) {RxBufReadCnt=0;} // When count > =  the size of the buffer, reset the buffer
+    return EUSART4RXbuf[RxBufReadCnt++]; // Get the byte to the next memory address of the array (RX)
 }
 
 // add a byte to the buffer
 void putCharToRxBuf(char byte){
-    if (RxBufWriteCnt>=RX_BUF_SIZE) {RxBufWriteCnt=0;}
-    EUSART4RXbuf[RxBufWriteCnt++]=byte;
+    if (RxBufWriteCnt>=RX_BUF_SIZE) {RxBufWriteCnt=0;} // When count > =  the size of the buffer, reset the buffer
+    EUSART4RXbuf[RxBufWriteCnt++]=byte; // Store the byte to the next memory address of the array (RX)
 }
 
 // function to check if there is data in the RX buffer
 // 1: there is data in the buffer
 // 0: nothing in the buffer
 char isDataInRxBuf (void){
-    return (RxBufWriteCnt!=RxBufReadCnt);
+    return (RxBufWriteCnt!=RxBufReadCnt); // If writecut != readcnt, return 1, there is data in the buffer; else, return 0, there is nothing in the buffer
 }
 
 // circular buffer functions for TX
 // retrieve a byte from the buffer
 char getCharFromTxBuf(void){
-    if (TxBufReadCnt>=TX_BUF_SIZE) {TxBufReadCnt=0;} 
-    return EUSART4TXbuf[TxBufReadCnt++];
+    if (TxBufReadCnt>=TX_BUF_SIZE) {TxBufReadCnt=0;} // When count > =  the size of the buffer, reset the buffer
+    return EUSART4TXbuf[TxBufReadCnt++]; // Get the byte to the next memory address of the array (TX)
 }
 
 // add a byte to the buffer
 void putCharToTxBuf(char byte){
-    if (TxBufWriteCnt>=TX_BUF_SIZE) {TxBufWriteCnt=0;}
-    EUSART4TXbuf[TxBufWriteCnt++]=byte;
+    if (TxBufWriteCnt>=TX_BUF_SIZE) {TxBufWriteCnt=0;} // When count > =  the size of the buffer, reset the buffer
+    EUSART4TXbuf[TxBufWriteCnt++]=byte; // Store the byte to the next memory address of the array (TX)
 }
 
 // function to check if there is data in the TX buffer

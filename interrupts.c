@@ -7,10 +7,10 @@
  * Note you also need to enable peripheral interrupts in the INTCON register to use CM1IE.
 ************************************/
 void Interrupts_init(void)
-{   PIE4bits.RC4IE = 1;	//receive interrupt
-    PIE4bits.TX4IE = 0;
+{   PIE4bits.RC4IE = 1;	// receive interrupt
+    PIE4bits.TX4IE = 0; // transmit interrupt (only turn on when you have more than one byte to send)
     INTCONbits.GIEL=1;  // turn on peripheral interrupts
-    INTCONbits.GIE=1; 	//turn on interrupts globally
+    INTCONbits.GIE=1; 	// turn on interrupts globally
 	// turn on global interrupts, peripheral interrupts and the interrupt source 
 	// It's a good idea to turn on global interrupts last, once all other interrupt configuration is done.
 }
@@ -21,12 +21,13 @@ void Interrupts_init(void)
 ************************************/
 void __interrupt(high_priority) HighISR()
 {   if(PIR4bits.RC4IF){    //check the interrupt source some code you want to execute here; 
-        putCharToRxBuf(RC4REG);
+                           // After reading RC4IF, the flag will be cleared
+        putCharToRxBuf(RC4REG); // add the character to RX buffer
 	}    
-    if (PIR4bits.TX4IF && (PIE4bits.TX4IE == 1)) {
-        TX4REG = getCharFromTxBuf();
-        PIR4bits.TX4IF = 0;
-        if (!isDataInTxBuf()) {PIE4bits.TX4IE = 0;}
+    if (PIR4bits.TX4IF && (PIE4bits.TX4IE == 1)) { // If transmit buffer is empty and transmit interrupt is enabled
+        TX4REG = getCharFromTxBuf(); // Get characters from transmit buffer
+        PIR4bits.TX4IF = 0; // Setting the transmit buffer to be full
+        if (!isDataInTxBuf()) {PIE4bits.TX4IE = 0;} // If
     }
 }
 
