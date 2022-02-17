@@ -27,7 +27,7 @@ void __interrupt(high_priority) HighISR()
     if (PIR4bits.TX4IF && (PIE4bits.TX4IE == 1)) { // If transmit buffer TX4REG is empty and transmit interrupt is enabled
         TX4REG = getCharFromTxBuf(); // Get characters from transmit buffer. After writing TX4REG, flag is cleared to 0
         //PIR4bits.TX4IF = 0; // Setting the transmit buffer to be full
-        if (!isDataInTxBuf()) {PIE4bits.TX4IE = 0;} // If TX buffer is empty (it could happen when the buffer exceed it its defined size), disabled the transmit interrupt
+        if (isDataInTxBuf() == 0) {PIE4bits.TX4IE = 0;} // If TX buffer is empty/ All information is read (if write count = read count), disabled the transmit interrupt
     }
 }
 
